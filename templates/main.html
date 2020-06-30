@@ -1,0 +1,280 @@
+<!-- display filter
+upload
+keyword search -->
+
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+    <script src="https://kit.fontawesome.com/1f8f17b764.js" crossorigin="anonymous"></script>
+
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">Financing Compendium - Filtering Prototype</a>
+      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div> -->
+    </nav>
+
+    <main role="main" class="container">
+
+      <form method="GET" action=".">
+        <div class="form-row">
+          <div class="form-group col-12">
+            <div class="input-group">
+              <!-- <label for="org_contains">Organization</label> -->
+              <input type="search" class="form-control" id="org_contains" placeholder="Search in Organization ..." name="org_contains">
+              <span class="input-group-append">
+                <div class="input-group-text bg-transparent">
+                  <i class="fa fa-search"></i>
+                </div>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group col-12">
+            <div class="input-group">
+              <!-- <label for="title_contains">Keyword</label> -->
+              <input type="search" class="form-control" id="keyword" placeholder="Search by Keyword ..." name="keyword">
+              <span class="input-group-append">
+                <div class="input-group-text bg-transparent">
+                  <i class="fa fa-search"></i>
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <!-- <label for="thematicArea">Thematic Area</label> -->
+            <select id="thematicArea" class="form-control" name="thematicArea_select">
+              <option selected>Choose thematic area ...</option>
+              {% for ta in tas %}
+                    <option value="{{ ta.ThematicArea }}">{{ ta.ThematicArea }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <!-- <label for="eligibility">Eligibility</label> -->
+            <select id="eligibility" class="form-control" name="eligibility_select">
+              <option selected>Choose eligibility ...</option>
+              {% for el in els %}
+                <option value="{{ el.Eligibility }}">{{ el.Eligibility }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <!-- <label for="financingOption">Financing Option</label> -->
+            <select id="financingOption" class="form-control" name="financingOption_select">
+              <option selected>Choose financing option ...</option>
+              {% for fo in fos %}
+                <option value="{{ fo.FinancingOption }}">{{ fo.FinancingOption }}</option>
+              {% endfor %}
+            </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+
+      </form>
+
+      <hr>
+      Filtered records: {{ selectedcount }} out of {{ totalcount }}
+      <hr>
+
+      {% for record in queryset %}
+        <table> 
+          <tr>
+            <td colspan="2" class="tableHeader">{{ record.InstName}}</td>  
+          </tr>
+          <tr>
+            <td class="tableLeft">Type/Origin Country</td>
+            <td>{{ record.InstType }}</td>  
+          </tr>
+            <td class="tableLeft">Institute/DP Category</td>
+            <td>{{ record.InstCategory }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Partnership (current) status</td>
+            <td>{{ record.InstPartnerStatus }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Status</td>
+            <td>{{ record.Status }}</td>  
+          </tr>
+          <tr>
+            <td colspan="2" class="tableSubheader">Themes and Areas</td>  
+          </tr>
+          <tr>
+            <td class="tableLeft">Key (Sub)sector(s)</td>
+            <td>{{ record.ThemeKeySubsector }}</td>  
+          </tr>
+            <td class="tableLeft">Focal/Thematic Areas</td>
+            <td>{{ record.ThemeArea }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>{{ record.FilterThematicArea }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Target Beneficiaries/ Geographical focus</td>
+            <td>{{ record.ThemeTarget }}</td>  
+          </tr>
+          <tr>
+            <td class="tableLeft">Institute/DP's Planned future allocations to W+WW sector</td>
+            <td>{{ record.ThemePlannedAllocations }}</td>  
+          </tr>
+          <tr>
+            <td colspan="2" class="tableSubheader">Financing/Funding Option</td>  
+          </tr>
+          <tr>
+            <td class="tableLeft">Option(s)</td>
+            <td>{{ record.OptionFinancingOption }}</td>  
+          </tr>
+            <td></td>
+            <td>{{ record.FilterFinancingOption }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Aid modalities</td>
+            <td>{{ record.OptionAidModalities }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Tenor ST: LT</td>
+            <td>{{ record.OptionTenor }}</td>  
+          </tr>
+          <tr>
+            <td class="tableLeft">Tenor years</td>
+            <td>{{ record.OptionTenorYears }}</td>  
+          </tr>
+          <tr>
+            <td class="tableLeft">Fund Title</td>
+            <td>{{ record.OptionFundTitle }}</td>  
+          </tr>
+          <tr>
+            <td colspan="2" class="tableSubheader">Eligibility</td>  
+          </tr>
+          <tr>
+            <td class="tableLeft">Eligible Applicants (Accredited Entities AEs)/ Which Parties Can access funding</td>
+            <td>{{ record.EligibilityApplicants }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Eligible government entities</td>
+            <td>{{ record.EligibilityGov }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Eligible Semi/non-Gov. entities</td>
+            <td>{{ record.EligibilityNonGov }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Eligibility criteria</td>
+            <td>{{ record.EligibilityCriteria }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Eligible Project Type</td>
+            <td>{{ record.EligibilityProjectType }}</td>
+          </tr>
+          <tr>
+            <td>Project Value Range</td>
+            <td>{{ record.EligibilityProjectValueRange }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Project Preparation Level</td>
+            <td>{{ record.EligibilityProjectPreparationLevel }}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="tableSubheader">Application Process</td>  
+          </tr>
+          <tr>
+            <td class="tableLeft">Date(s)</td>
+            <td>{{ record.ApplicationProcessDates }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Steps</td>
+            <td>{{ record.ApplicationProcessSteps }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Duration</td>
+            <td>{{ record.ApplicationProcessDuration }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Potentiality of option</td>
+            <td>{{ record.ApplicationProcessPotentiality }}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="tableSubheader">Web contacts and comments</td>  
+          </tr>    
+          <tr>
+            <td class="tableLeft">Recommendation</td>
+            <td>{{ record.ContactRecommendations }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Comment</td>
+            <td>{{ record.ContactComment }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Website/ Financing option's webpage</td>
+            <td>{{ record.ContactWebsite }}</td>
+          </tr>
+          <tr>
+            <td class="tableLeft">Guidelines download</td>
+            <td>{{ record.ContactGuidelinesDownload }}</td>
+          </tr>   
+          <tr>
+            <td class="tableLeft">Contact</td>
+            <td>{{ record.ContactEmail }}</td>
+          </tr>
+        </table>
+        <hr style="width:50%">
+      {% endfor %}
+
+      </main><!-- /.container -->
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      </body>
+</html>

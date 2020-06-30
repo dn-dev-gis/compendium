@@ -1,0 +1,35 @@
+body {
+    margin-top: 5rem;
+}
+
+td {
+    font-size: 80%;
+    padding-left: 0.5em;
+}
+
+.tableLeft {
+    width: 20%;
+    text-align: right;
+    font-style: italic;
+    padding-left: 0.5em;
+}
+
+.tableHeader{
+    font-size: 110%;
+    color: white;
+    font-weight: 700;
+    padding-left: 0.5em;
+    padding-bottom: 0.5em;
+    background-color: grey;
+    text-align: center;
+}
+
+.tableSubheader {
+    font-size: 90%;
+    font-weight: 600;
+    padding-left: 0;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    background-color: lightgrey;
+    text-align: center;
+}
